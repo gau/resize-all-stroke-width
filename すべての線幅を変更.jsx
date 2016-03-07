@@ -16,7 +16,7 @@ http://www.graphicartsunit.com/
 
 	// Initialize
 	var SCRIPT_TITLE = 'すべての線幅を変更';
-	var SCRIPT_VERSION = '0.5.3';
+	var SCRIPT_VERSION = '0.5.4';
 
 	var doc = app.activeDocument;
 	var targetItems = doc.selection;
@@ -96,7 +96,7 @@ http://www.graphicartsunit.com/
 				app.undo();
 				thisObj.scaleText.active = true;
 			}
-			if(thisObj.scaleText.text != settings.scale) thisObj.scaleText.text = settings.scale;
+			if(thisObj.scaleText.text !== settings.scale) thisObj.scaleText.text = settings.scale;
 		}
 
 		// Set event for preview
@@ -164,12 +164,12 @@ http://www.graphicartsunit.com/
 
 	// Validation for scale value
 	function validateScale(v) {
-		if(!isNaN(v)) {
+		if(!isNaN(v) && v.indexOf('0') != 0) {
 			if(v <= 0) {
 				alert('0以下の値は1％として処理されます');
 				return 1;
 			} else if(v > 1000) {
-				alert('最大値は1000より大きい値は1000％として処理されます');
+				alert('1000より大きい値は1000％として処理されます');
 				return 1000;
 			}
 			return v;
