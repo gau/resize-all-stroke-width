@@ -16,7 +16,7 @@ http://www.graphicartsunit.com/
 
 	// Initialize
 	var SCRIPT_TITLE = 'すべての線幅を変更';
-	var SCRIPT_VERSION = '0.5.4';
+	var SCRIPT_VERSION = '0.5.5';
 
 	var doc = app.activeDocument;
 	var targetItems = doc.selection;
@@ -164,7 +164,7 @@ http://www.graphicartsunit.com/
 
 	// Validation for scale value
 	function validateScale(v) {
-		if(!isNaN(v) && v.indexOf('0') != 0) {
+		if(!isNaN(v) && String(v).indexOf('0') != 0) {
 			if(v <= 0) {
 				alert('0以下の値は1％として処理されます');
 				return 1;
