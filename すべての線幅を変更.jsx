@@ -16,7 +16,7 @@ http://www.graphicartsunit.com/
 
 	// Initialize
 	var SCRIPT_TITLE = 'すべての線幅を変更';
-	var SCRIPT_VERSION = '0.5.2';
+	var SCRIPT_VERSION = '0.5.3';
 
 	var doc = app.activeDocument;
 	var targetItems = doc.selection;
@@ -56,11 +56,11 @@ http://www.graphicartsunit.com/
 
 		// Dialog - Hint message
 		var aiv = app.version.split('.')[0];
-		if(!settings.onChanging && Number(aiv) > 15) {
+		if(!settings.onChanging && Number(aiv) > 16) {
 			thisObj.noteGroup = thisObj.dlg.add('panel', undefined, 'HINT:');
 
 			var noteText = saveOptions.os == 'Windows' ? '［Alt］、［Ctrl］' : '［command］［option］［control］';
-			thisObj.noteText = thisObj.noteGroup.add('statictext', undefined, 'CS6以降は' + noteText + 'のいずれかを押してもプレビューを更新できます', {multiline:true});
+			thisObj.noteText = thisObj.noteGroup.add('statictext', undefined, 'CC以降は' + noteText + 'のいずれかを押してもプレビューを更新できます', {multiline:true});
 			thisObj.noteText.alignment = 'center';
 			thisObj.noteText.minimumSize = [unit * 25, undefined];
 		}
