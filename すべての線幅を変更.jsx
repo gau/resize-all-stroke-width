@@ -16,7 +16,7 @@ http://www.graphicartsunit.com/
 
 	// Initialize
 	var SCRIPT_TITLE = 'すべての線幅を変更';
-	var SCRIPT_VERSION = '0.5.5';
+	var SCRIPT_VERSION = '0.6.0';
 
 	var doc = app.activeDocument;
 	var targetItems = doc.selection;
@@ -50,6 +50,7 @@ http://www.graphicartsunit.com/
 		thisObj.scaleGroup.margins = [unit, unit, unit, unit];
 
 		thisObj.scaleGroup.add('statictext', undefined, '比率', {alignment:'left'});
+		thisObj.sizeSlider = thisObj.scaleGroup.add('slider', [0, 0, 250, 23], settings.scale / 10);
 		thisObj.scaleText = thisObj.scaleGroup.add('edittext', undefined, settings.scale);
 		thisObj.scaleText.minimumSize = [unit * 6, unit];
 		thisObj.scaleGroup.add('statictext', undefined, '%', {alignment:'left'});
@@ -104,12 +105,25 @@ http://www.graphicartsunit.com/
 		var previewEvent = settings.onChanging ? 'changing' : 'change';
 		thisObj.scaleText.addEventListener(previewEvent, preview);
 		thisObj.scaleText.dispatchEvent(new UIEvent(previewEvent));
-		if(!settings.onChanging) {
-			thisObj.scaleText.addEventListener('keyup', function(e) {
-				if(e.keyName == 'Alt' || e.keyName == 'Meta' || e.keyName == 'Control') {
+		thisObj.scaleText.addEventListener(previewEvent, syncSlider);
+		function syncSlider(event) {
+			thisObj.sizeSlider.value = this.text < 10 ? 1 : this.text / 10;
+			this.active = true;
+		}
+		thisObj.scaleText.addEventListener('keyup', onKeyup);
+		function onKeyup(event) {
+			if(!settings.onChanging) {
+				if(event.keyName == 'Alt' || event.keyName == 'Meta' || event.keyName == 'Control') {
 					thisObj.scaleText.dispatchEvent(new UIEvent(previewEvent));
 				}
-			});
+			}
+		}
+
+		// Slider action
+		thisObj.sizeSlider.onChanging = function() {
+			thisObj.scaleText.text = Math.round(this.value * 10) > 0 ? Math.round(this.value * 10) : 1;
+			thisObj.scaleText.dispatchEvent(new UIEvent(previewEvent));
+			thisObj.scaleText.active = true;
 		}
 
 		// Preview checkbox action
