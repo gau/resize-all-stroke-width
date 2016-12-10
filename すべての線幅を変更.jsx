@@ -16,7 +16,7 @@ http://www.graphicartsunit.com/
 
 	// Initialize
 	var SCRIPT_TITLE = 'すべての線幅を変更';
-	var SCRIPT_VERSION = '0.6.0';
+	var SCRIPT_VERSION = '0.6.1';
 
 	var doc = app.activeDocument;
 	var targetItems = doc.selection;
@@ -91,8 +91,10 @@ http://www.graphicartsunit.com/
 			if(previewScale != -1) {
 				settings.scale = settings.preview ? previewScale : thisObj.scaleText.text;
 				resizeStrokeWidth(previewScale);
-				var dummyObject = doc.pathItems.add();
-				dummyObject.remove();
+				var activeLayer = doc.activeLayer;
+				var dummyLayer = doc.layers.add();
+				doc.activeLayer = activeLayer;
+				dummyLayer.remove();
 				app.redraw();
 				app.undo();
 				thisObj.scaleText.active = true;
